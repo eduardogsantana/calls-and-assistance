@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { AssistanceService } from "./assistance.service";
-import { Assistance } from "./entities/assistance.entity";
+import { AssistanceEntity } from "./entities/assistance.entity";
 import { CreateAssistanceDTO } from "./dto/create-assistance.dto";
 import { UpdateAssistanceDTO } from "./dto/update-assistance.dto";
 
@@ -9,25 +9,22 @@ export class AssistanceController {
   constructor(private readonly assistanceService: AssistanceService) {}
 
   @Get()
-  async findAll(): Promise<Assistance[]> {
+  async findAll(): Promise<AssistanceEntity[]> {
     return this.assistanceService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Assistance> {
+  async findOne(@Param('id') id: number): Promise<AssistanceEntity> {
     return this.assistanceService.findOne(id);
   }
 
   @Post()
-  async create(@Body() createAssistanceDto: CreateAssistanceDTO): Promise<Assistance> {
+  async create(@Body() createAssistanceDto: CreateAssistanceDTO): Promise<AssistanceEntity> {
     return this.assistanceService.create(createAssistanceDto);
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateAssistanceDto: UpdateAssistanceDTO,
-  ): Promise<Assistance> {
+  async update(@Param('id') id: number, @Body() updateAssistanceDto: UpdateAssistanceDTO,): Promise<AssistanceEntity>{
     return this.assistanceService.update(id, updateAssistanceDto);
   }
 

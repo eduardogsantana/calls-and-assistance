@@ -1,5 +1,5 @@
-import { IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
-import { Dificulty, Status } from "../entities/assistance.entity";
+import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
+import { AssistanceEntity, Dificulty, Status } from "../entities/assistance.entity";
 
 export class CreateAssistanceDTO{
     @IsString()
@@ -12,5 +12,9 @@ export class CreateAssistanceDTO{
     @IsOptional()
     @IsEnum(Dificulty)
     dificulty: Dificulty
+
+    @IsOptional()
+    @IsNumber()
+    calls: AssistanceEntity
 
 }

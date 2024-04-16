@@ -1,5 +1,5 @@
-import { Assistance } from "src/assistance/entities/assistance.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AssistanceEntity } from "src/assistance/entities/assistance.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
 export enum Priority{
@@ -11,7 +11,7 @@ export enum Priority{
 
 
 @Entity({name:'calls'})
-export class Calls{
+export class CallsEntity{
     @PrimaryGeneratedColumn('rowid')
     id: number
 
@@ -40,10 +40,8 @@ export class Calls{
     @UpdateDateColumn()
     updateAt: Date
 
-
-
-    @ManyToOne(()=> Assistance, assistance => assistance.calls)
-    assistance: Assistance
+    @OneToMany(()=> AssistanceEntity, (assistance) => assistance.calls)
+    assistance?: AssistanceEntity[]
 
 
 }

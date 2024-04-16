@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Calls } from "./entities/calls.entity";
+import { CallsEntity } from "./entities/calls.entity";
 import { Repository } from "typeorm";
-import { CreateCallsDTO } from "./dto/create-calls.dto";
+import { CreateCallsDTO } from "./dto/calls-create.dto";
 import { UpdateCallsDTO } from "./dto/calls-update.dto";
 
 @Injectable()
 export class CallsService{
-    constructor(@InjectRepository(Calls) private readonly callsRepository: Repository<Calls>){}
+    constructor(@InjectRepository(CallsEntity) private readonly callsRepository: Repository<CallsEntity>){}
 
-    async findAll(): Promise<Calls[]> {
+    async findAll(): Promise<CallsEntity[]> {
         return this.callsRepository.find();
       }
     
@@ -27,15 +27,12 @@ export class CallsService{
         return call
       }
     
-      async create(createCallsDto: CreateCallsDTO): Promise<Calls> {
+      async create(createCallsDto: CreateCallsDTO): Promise<CallsEntity> {
         const call = this.callsRepository.create(createCallsDto);
         return this.callsRepository.save(call);
       }
     
-      async update(
-        id: number,
-        updateCallsDto: UpdateCallsDTO,
-      ): Promise<Calls> {
+      async update(id: number, updateCallsDto: UpdateCallsDTO,):Promise<CallsEntity> {
         const call = await this.findOne(id);
         this.callsRepository.merge(call, updateCallsDto);
         return this.callsRepository.save(call);

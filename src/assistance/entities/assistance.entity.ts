@@ -1,5 +1,5 @@
-import { Calls } from "src/calls/entities/calls.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CallsEntity } from "src/calls/entities/calls.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum Dificulty{
     JUNIOR = 'Júnior',
@@ -14,7 +14,7 @@ export enum Status{
 }
 
 @Entity()
-export class Assistance{
+export class AssistanceEntity{
     @PrimaryGeneratedColumn()
     id: number
 
@@ -41,7 +41,8 @@ export class Assistance{
     @UpdateDateColumn()
     updateAt: Date
 
-    @OneToMany(() => Calls, calls => calls.assistance)
-    calls: Calls[]
+    @ManyToOne(() => CallsEntity, (calls) => calls.assistance)
+    @JoinColumn({name: 'call_registration', referencedColumnName:'id'})
+    calls?: CallsEntity
 }
 
