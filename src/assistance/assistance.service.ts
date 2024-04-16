@@ -9,44 +9,33 @@ import { CreateAssistanceDTO } from "./dto/create-assistance.dto";
 export class AssistanceService {
   constructor(
     @InjectRepository(AssistanceEntity)
-    private readonly assistanceRepository: Repository<AssistanceEntity>,
-  ) {}
+    private readonly AssistanceRepository: Repository<AssistanceEntity>,
+  ){}
 
-  async findAll() {
-    return this.assistanceRepository.find({
-      relations: {
-        calls: true,
-      },
-    });
-  }
-
-  async findOne(id: number) {
-    const assistance = await this.assistanceRepository.findOne({
-      where: {
-        id: id,
-      }
+  async createAssistance(createAssistanceDto: CreateAssistanceDTO): Promise<AssistanceEntity> {
+    return this.AssistanceRepository.save({
+      ...createAssistanceDto,
     })
-
-    if(!assistance) {
-      throw new NotFoundException(`Atendimento: ${id} não encontrado`)
     }
 
-    return assistance
-  }
+    async findAll() {
+      return this.AssistanceRepository.find({
+        relations: {
+          calls: true,
+        },
+      });
+    }
 
-  async create(createAssistanceDto: CreateAssistanceDTO): Promise<AssistanceEntity> {
-    const assistance = this.assistanceRepository.create(createAssistanceDto);
-    return this.assistanceRepository.save(assistance);
-  }
+    async findOne(id: number): Promise<AssistanceEntity | null> {
+        return this.AssistanceRepository.findOne({ where: { id } });
+    }
 
-  async update(id: number,updateAssistanceDto:UpdateAssistanceDTO,):Promise<AssistanceEntity> {
-    const assistance = await this.findOne(id);
-    this.assistanceRepository.merge(assistance, updateAssistanceDto);
-    return this.assistanceRepository.save(assistance);
-  }
+    async updatePartial(id: number, updateAssistanceDto: UpdateAssistanceDTO): Promise<AssistanceEntity> {
+      await this.AssistanceRepository.update(id, updateAssistanceDto);
+      return await this.findOne(id);   
+    }
 
-  async delete(id: number): Promise<void> {
-    const assistance = await this.findOne(id);
-    await this.assistanceRepository.remove(assistance);
-  }
+    async delete(id: number): Promise<void> {
+        await this.AssistanceRepository.delete(id);
+    }
 }
