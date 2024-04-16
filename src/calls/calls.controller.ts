@@ -25,7 +25,7 @@ export class CallsController{
 
     @Patch(':id')
     async update(@Param('id') id: number, @Body() updateCallsDto: UpdateCallsDTO): Promise<CallsEntity> {
-        return this.callsService.update(id, updateCallsDto)
+        return this.callsService.updatePartial(id, updateCallsDto)
     }
 
     @Delete(':id')
