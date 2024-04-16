@@ -32,14 +32,12 @@ export class CallsService{
         return this.callsRepository.save(call);
       }
     
-      async update(id: number, updateCallsDto: UpdateCallsDTO,):Promise<CallsEntity> {
-        const call = await this.findOne(id);
-        this.callsRepository.merge(call, updateCallsDto);
-        return this.callsRepository.save(call);
+      async updatePartial(id: number, updateCallDto: UpdateCallsDTO): Promise<CallsEntity> {
+        await this.callsRepository.update(id, updateCallDto);
+        return await this.findOne(id);   
       }
-    
+  
       async delete(id: number): Promise<void> {
-        const call = await this.findOne(id);
-        await this.callsRepository.remove(call);
+          await this.callsRepository.delete(id);
       }
 }
